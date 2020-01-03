@@ -1,5 +1,5 @@
-import { PaginationConfig } from './types/index'
-import { noop } from './helpers/utils'
+import { PaginationConfig } from '../../../../types/index'
+import { noop } from '../../../../helpers/utils'
 
 const defaults: PaginationConfig = {
   defaultCurrent: 1,

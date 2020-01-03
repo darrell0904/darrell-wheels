@@ -1,5 +1,5 @@
-import '../pagination/styles/index.less';
-import { noop } from '../pagination/helpers/utils';
+import '../../../../styles/pagination/index.less';
+import { noop } from '../../../../helpers/utils';
 
 class Select {
   private options: any;

@@ -6,23 +6,24 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   // 模式配置
   mode: 'development',
+  devtool: 'cheap-module-eval-source-map',
   // 入口文件
   entry: {
     pagination: './src/index.ts'
   },
   // 出口文件
   output: {
-    path: path.resolve(__dirname, 'dist-es6'),
-    filename: "pagination.min.js",
+    path: path.resolve(__dirname, 'dist'),
+    filename: "darrellWheels.min.js",
     libraryTarget: 'umd',
-    library: 'pagination'
+    library: 'darrellWhells'
   },
   resolve: {
     extensions: [ '.ts', '.tsx', '.js', '.json']
   },
   // 对应的插件
   plugins: [
-    new CleanWebpackPlugin(['dist-es6']),
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       template: './index.html',
       inject: 'body',

@@ -1,16 +1,24 @@
 {
-  "name": "pagination",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "darrell-wheels",
+  "version": "1.0.6",
+  "description": "somw wheels",
+  "main": "dist/darrellWheels.min.js",
   "scripts": {
     "test": "node test/test.js",
     "dev": "webpack-dev-server",
     "build": "webpack",
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darrell0904/darrell-wheels.git"
+  },
+  "author": "darrell",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/darrell0904/darrell-wheels/issues"
+  },
+  "homepage": "https://github.com/darrell0904/darrell-wheels#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",

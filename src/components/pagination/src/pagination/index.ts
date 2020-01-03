@@ -1,7 +1,8 @@
-import './styles/index.less';
+import '../../../../styles/normal.less';
+import '../../../../styles/pagination/index.less';
 //  默认配置
 import defaults from "./defaults";
-import { PaginationConfig } from './types/index'
+import { PaginationConfig } from '../../../../types/index'
 import Select from '../select/index';
 
 class Pagination {
@@ -88,6 +89,8 @@ class Pagination {
    * 改变页数
    */
   private changePage () {
+    if (!this.pageElement) return;
+
     let pageElement = this.pageElement;
     const isDisabled = this.options.disabled;
 
@@ -111,7 +114,9 @@ class Pagination {
           } else if (parentNode.id === "jump-next") {
             this.jumpNextPage();
           } else if (parentNode.id === "page") {
-            this.goPage(parseInt(target.innerHTML, 10));
+            // const page = parentNode.dataset.page
+            const page = parentNode.dataset.page;
+            this.goPage(parseInt(page, 10));
           } else {
             return;
           }
@@ -327,6 +332,7 @@ class Pagination {
 
     liEle.setAttribute('class', `${className} liEventTarget`);
     liEle.setAttribute('id', id);
+    liEle.setAttribute('data-page', content);
 
     let aEle;
 
@@ -350,7 +356,7 @@ class Pagination {
       }
       aEle = itemRender(
         this.getNextPage(),
-        'prev',
+        'next',
         this.getIcon(this.getEveryIconType().nextIconEle)
       )
     } else if (id === 'jump-prev') {
@@ -368,7 +374,7 @@ class Pagination {
       // liEle.appendChild(spanEle);
       aEle = itemRender(
         this.getJumpNextPage(),
-        'jump-prev',
+        'jump-next',
         this.getIcon(this.getEveryIconType().jumpNextWrapEle)
       )
     } else if (id === 'page') {
@@ -378,6 +384,8 @@ class Pagination {
 
       let aEleNew = document.createElement("a");
       aEleNew.innerHTML = content;
+
+      liEle.setAttribute
 
       aEle = itemRender(
         parseInt(content, 10),
@@ -414,6 +422,8 @@ class Pagination {
    * 渲染页面
    */
   private renderPages () {
+    if (!this.pageElement) return console.error('请设置包裹容器');
+
     this.pageElement.innerHTML = "";
 
     const current = this.current;
@@ -804,47 +814,47 @@ class Pagination {
   }
 }
 
-const pagination = new Pagination('#pagination', {
-  total: 500,
-  // disabled: true,
-  // showLessItems: true,
-  // size: 'small',
-  // showTotal: (total: any, range: any) => {
-  //   return `${range[0]}-${range[1]} of ${total} items`;
-  // },
-  showSizeChanger: true,
-  showQuickJumper: true,
-  hideOnSinglePage: true,
-  simple: false,
-  onChange: (page: any, pageSize: any) => {
-    console.log('---page---', page);
-    console.log('---pageSize---', pageSize);
-  },
-  onShowSizeChange: (page: any, size: any) => {
-    console.log('---page--11-', page);
-    console.log('---size--11-', size);
-  },
-  // itemRender: (current: any, type: any, originalElement: any): any => {
-  //   function createAEle (content: string) {
-  //     let aEle = document.createElement("a");
-  //     aEle.innerHTML = content;
-  //     return aEle;
-  //   }
+// const pagination = new Pagination('#pagination', {
+//   total: 500,
+//   // disabled: true,
+//   // showLessItems: true,
+//   // size: 'small',
+//   // showTotal: (total: any, range: any) => {
+//   //   return `${range[0]}-${range[1]} of ${total} items`;
+//   // },
+//   showSizeChanger: true,
+//   showQuickJumper: true,
+//   hideOnSinglePage: true,
+//   simple: false,
+//   onChange: (page: any, pageSize: any) => {
+//     console.log('---page---', page);
+//     console.log('---pageSize---', pageSize);
+//   },
+//   onShowSizeChange: (page: any, size: any) => {
+//     console.log('---page--11-', page);
+//     console.log('---size--11-', size);
+//   },
+//   itemRender: (current: any, type: any, originalElement: any): any => {
+//     function createAEle (content: string) {
+//       let aEle = document.createElement("a");
+//       aEle.innerHTML = content;
+//       return aEle;
+//     }
 
-  //   if (type === 'prev') {
-  //     return createAEle('上一个');
-  //   }
+//     if (type === 'prev') {
+//       return createAEle('上一个');
+//     }
 
-  //   if (type === 'next') {
-  //     return createAEle('下一个');
-  //   }
+//     if (type === 'next') {
+//       return createAEle('下一个');
+//     }
 
-  //   if (type === 'page') {
-  //     return createAEle(`第${current}只`);
-  //   }
+//     if (type === 'page') {
+//       return createAEle(`第${current}只`);
+//     }
 
-  //   return originalElement;
-  // }
-});
+//     return originalElement;
+//   }
+// });
 
 export default Pagination;
