@@ -1,5 +1,13 @@
 import '../../../../styles/pagination/index.less';
-import { noop } from '../../../../helpers/utils';
+import {
+  noop,
+  $$,
+  addClass,
+  removeClass,
+  hasClass,
+  addEvent,
+  removeHandler,
+} from '../../../../helpers/utils';
 
 class Select {
   private options: any;
@@ -26,69 +34,23 @@ class Select {
   }
 
   /**
-   * 添加事件的方法函数
-   * @param element
-   * @param type
-   * @param handler
-   */
-  private addEvent (element: any, type: any, handler: any) {
-    // 添加绑定
-    if (element.addEventListener) {
-      // 使用DOM2级方法添加事件
-      element.addEventListener(type, handler, false);
-    } else if (element.attachEvent) {
-      // 使用IE方法添加事件
-      element.attachEvent("on" + type, handler);
-    } else {
-      // 使用DOM0级方法添加事件
-      element["on" + type] = handler;
-    }
-  }
-
-  /**
-   * 移除事件的方法函数
-   * @param element
-   * @param type
-   * @param handler
-   */
-  private removeHandler (element: any, type: any, handler: any) {
-    if (element.removeEventListener){
-       element.removeEventListener(type,handler,false);
-    } else if (element.detachEvent){
-       element.detachEvent("on"+type,handler);
-    } else {
-       element["on"+type]=null;
-    }
-  }
-
-  /**
-   * 模仿jQuery $()
-   * @param selector
-   * @param context
-   */
-  private $(selector:any, context?:any) {
-    context = arguments.length > 1 ? context : document;
-    return context ? context.querySelectorAll(selector) : null;
-  }
-
-  /**
    * 重新注册事件
    * @param element
    * @param type
    * @param handler
    */
   private refreshEvent (element: any, type: any, handler: any) {
-    this.removeHandler(element, type, handler);
-    this.addEvent(element, type, handler)
+    removeHandler(element, type, handler);
+    addEvent(element, type, handler)
   }
 
   private bodyHideDropdown () {
     const SelectValueElement = this.SelectValueElement;
     const SelectDropdownElement = this.SelectDropdownElement;
 
-    if (!Select.hasClass(SelectDropdownElement, 'none')) {
-      Select.addClass(SelectDropdownElement, 'none');
-      Select.removeClass(SelectValueElement, 'darrell-open-select-dropdown');
+    if (!hasClass(SelectDropdownElement, 'none')) {
+      addClass(SelectDropdownElement, 'none');
+      removeClass(SelectValueElement, 'darrell-open-select-dropdown');
     }
   }
 
@@ -102,9 +64,9 @@ class Select {
     const isDisabled = this.options.disabled;
 
     if (!isDisabled) {
-      this.addEvent(SelectValueElement, 'click', this.ValueClickHandler.bind(this));
-      this.addEvent(SelectDropdownElement, 'click', this.DropdownClickHandler.bind(this));
-      this.addEvent(this.$('body')[0], 'click', this.bodyHideDropdown.bind(this))
+      addEvent(SelectValueElement, 'click', this.ValueClickHandler.bind(this));
+      addEvent(SelectDropdownElement, 'click', this.DropdownClickHandler.bind(this));
+      addEvent($$('body')[0], 'click', this.bodyHideDropdown.bind(this))
     }
   }
 
@@ -115,12 +77,12 @@ class Select {
     const SelectDropdownElement = this.SelectDropdownElement;
     const parentNode = target.parentNode;
 
-    if (Select.hasClass(SelectDropdownElement, 'none')) {
-      Select.removeClass(SelectDropdownElement, 'none');
-      Select.addClass(parentNode, 'darrell-open-select-dropdown');
+    if (hasClass(SelectDropdownElement, 'none')) {
+      removeClass(SelectDropdownElement, 'none');
+      addClass(parentNode, 'darrell-open-select-dropdown');
     } else {
-      Select.addClass(SelectDropdownElement, 'none');
-      Select.removeClass(parentNode, 'darrell-open-select-dropdown');
+      addClass(SelectDropdownElement, 'none');
+      removeClass(parentNode, 'darrell-open-select-dropdown');
     }
   }
 
@@ -194,70 +156,14 @@ class Select {
     if (!this.SelectValueElement) {
       this.SelectValueElement = DivSecWrapEle;
     } else {
-      this.removeHandler(this.SelectValueElement, 'click', this.ValueClickHandler.bind(this));
+      removeHandler(this.SelectValueElement, 'click', this.ValueClickHandler.bind(this));
       this.SelectValueElement = DivSecWrapEle;
-      this.addEvent(this.SelectValueElement, 'click', this.ValueClickHandler.bind(this));
+      addEvent(this.SelectValueElement, 'click', this.ValueClickHandler.bind(this));
     }
 
     DivWrapEle.append(DivSecWrapEle);
 
     return fragment.appendChild(DivWrapEle);
-  }
-
-  /**
-   * 添加 class 名
-   */
-  private static addClass = (elem: any, className: any) => {
-    if (elem.className) {
-      const oriName = elem.className;
-      const newClass = oriName + ' ' + className;
-      elem.className = newClass;
-    } else {
-      elem.className = className;
-    }
-  }
-
-  /**
-   * 移除 class 名
-   */
-  private static removeClass = (elem: any, className: any) => {
-    if (elem.className !== '') {
-      let arrClassName = elem.className.split(' ');
-      let classIndex = Select.arrIndexOf(arrClassName, className);
-
-      if (classIndex !== -1) {
-        arrClassName.splice(classIndex, 1);
-        elem.className = arrClassName.join(' ');
-      }
-    }
-  }
-
-  /**
-   * 移除 class 名
-   */
-  private static hasClass = (elem: any, className: any): boolean => {
-    if (elem.className !== '') {
-      let arrClassName = elem.className.split(' ');
-      let classIndex = Select.arrIndexOf(arrClassName, className);
-
-      if (classIndex > -1) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
-   * arrIndexOf
-   */
-  private static arrIndexOf = (arr: any, v: any): number => {
-    for (var i = 0; i < arr.length; i++) {
-        if (arr[i] == v) {
-            return i;
-        }
-    }
-  
-    return -1;
   }
 
   /**
@@ -283,7 +189,7 @@ class Select {
       liEle.setAttribute("value", val);
 
       if (value === val) {
-        Select.addClass(liEle, 'darrell-select-dropdown-menu-item-selected');
+        addClass(liEle, 'darrell-select-dropdown-menu-item-selected');
       }
 
       liEle.innerHTML = `${val} 页/条`;
@@ -296,9 +202,9 @@ class Select {
     if (!this.SelectDropdownElement) {
       this.SelectDropdownElement = DivSecWrapEle;
     } else {
-      this.removeHandler(this.SelectDropdownElement, 'click', this.DropdownClickHandler.bind(this));
+      removeHandler(this.SelectDropdownElement, 'click', this.DropdownClickHandler.bind(this));
       this.SelectDropdownElement = DivSecWrapEle;
-      this.addEvent(this.SelectDropdownElement, 'click', this.DropdownClickHandler.bind(this));
+      addEvent(this.SelectDropdownElement, 'click', this.DropdownClickHandler.bind(this));
     }
 
     DivWrapEle.append(DivSecWrapEle);
@@ -313,7 +219,7 @@ class Select {
   private init (selector:any) {
 
   	// select元素
-    this.selectElement = this.$(selector)[0];
+    this.selectElement = $$(selector)[0];
 
     // 数据总数
     this.selectOptions = this.options.pageSizeOptions;

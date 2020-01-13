@@ -2,7 +2,8 @@ import '../../../../styles/normal.less';
 import '../../../../styles/pagination/index.less';
 //  默认配置
 import defaults from "./defaults";
-import { PaginationConfig } from '../../../../types/index'
+import { PaginationConfig } from '../../../../types/index';
+import { $$, addEvent, addClass } from '../../../../helpers/utils';
 import Select from '../select/index';
 
 class Pagination {
@@ -56,36 +57,6 @@ class Pagination {
   }
 
   /**
-   * 添加事件的方法函数
-   * @param element
-   * @param type
-   * @param handler
-   */
-  private addEvent (element: any, type: any, handler: any) {
-    // 添加绑定
-    if (element.addEventListener) {
-      // 使用DOM2级方法添加事件
-      element.addEventListener(type, handler, false);
-    } else if (element.attachEvent) {
-      // 使用IE方法添加事件
-      element.attachEvent("on" + type, handler);
-    } else {
-      // 使用DOM0级方法添加事件
-      element["on" + type] = handler;
-    }
-  }
-
-  /**
-   * 模仿jQuery $()
-   * @param selector
-   * @param context
-   */
-  private $(selector:any, context?:any) {
-    context = arguments.length > 1 ? context : document;
-    return context ? context.querySelectorAll(selector) : null;
-  }
-
-  /**
    * 改变页数
    */
   private changePage () {
@@ -95,7 +66,7 @@ class Pagination {
     const isDisabled = this.options.disabled;
 
     if (!isDisabled) {
-      this.addEvent(pageElement, 'click', (ev: any) => {
+      addEvent(pageElement, 'click', (ev: any) => {
         let e = ev || window.event;
         let target = e.target || e.srcElement;
 
@@ -135,14 +106,14 @@ class Pagination {
     let pageElement = this.pageElement;
     const isDisabled = this.options.disabled;
 
-    const liEles = this.$('.liEventTarget' ,pageElement);
+    const liEles = $$('.liEventTarget' ,pageElement);
 
     if (!isDisabled) {
 
       for (let i = 0; i < liEles.length; i++) {
         const liItem = liEles[i];
 
-        this.addEvent(liItem, 'click', (ev: any) => {
+        addEvent(liItem, 'click', (ev: any) => {
           let e = ev || window.event;
           let target = e.currentTarget;
 
@@ -243,19 +214,6 @@ class Pagination {
   }
 
   /**
-   * 添加 class 名
-   */
-  private static addClass = (elem: any, className: any) => {
-    if (elem.className) {
-      const oriName = elem.className;
-      const newClass = oriName + ' ' + className;
-      elem.className = newClass;
-    } else {
-      elem.className = className;
-    }
-  }
-
-  /**
    * 
    */
   private getIcon = (icon: any): any => {
@@ -342,7 +300,7 @@ class Pagination {
     if (id === 'prev') {
       // aEle.setAttribute('class', `iconfont icon-left ${Pagination.CLASS_NAME.LINK}`);
       if (!this.hasPrev()) {
-        Pagination.addClass(liEle, "darrell-pagination-disabled");
+        addClass(liEle, "darrell-pagination-disabled");
       }
       aEle = itemRender(
         this.getPrevPage(),
@@ -352,7 +310,7 @@ class Pagination {
     } else if (id === 'next') {
       // aEle.setAttribute('class', `iconfont icon-right ${Pagination.CLASS_NAME.LINK}`);
       if (!this.hasNext()) {
-        Pagination.addClass(liEle, "darrell-pagination-disabled");
+        addClass(liEle, "darrell-pagination-disabled");
       }
       aEle = itemRender(
         this.getNextPage(),
@@ -379,7 +337,7 @@ class Pagination {
       )
     } else if (id === 'page') {
       if (current === parseInt(content, 10)) {
-        Pagination.addClass(liEle, Pagination.CLASS_NAME.ITEM_ACTIVE);
+        addClass(liEle, Pagination.CLASS_NAME.ITEM_ACTIVE);
       }
 
       let aEleNew = document.createElement("a");
@@ -460,15 +418,15 @@ class Pagination {
     UlEle.setAttribute('class', 'darrell-pagination');
 
     if (simple) {
-      Pagination.addClass(UlEle, 'darrell-pagination-simple');
+      addClass(UlEle, 'darrell-pagination-simple');
     }
 
     if (isDisabled) {
-      Pagination.addClass(UlEle, 'darrell-pagination-disabled');
+      addClass(UlEle, 'darrell-pagination-disabled');
     }
 
     if (isSmall) {
-      Pagination.addClass(UlEle, 'mini');
+      addClass(UlEle, 'mini');
     }
 
     if (showTotal && typeof showTotal === 'function' && !simple) {
@@ -792,7 +750,7 @@ class Pagination {
   private init (selector:any) {
 
   	// 分页器元素
-    this.pageElement = this.$(selector)[0];
+    this.pageElement = $$(selector)[0];
 
     // 数据总数
     this.total = this.options.total;
@@ -814,47 +772,47 @@ class Pagination {
   }
 }
 
-// const pagination = new Pagination('#pagination', {
-//   total: 500,
-//   // disabled: true,
-//   // showLessItems: true,
-//   // size: 'small',
-//   // showTotal: (total: any, range: any) => {
-//   //   return `${range[0]}-${range[1]} of ${total} items`;
-//   // },
-//   showSizeChanger: true,
-//   showQuickJumper: true,
-//   hideOnSinglePage: true,
-//   simple: false,
-//   onChange: (page: any, pageSize: any) => {
-//     console.log('---page---', page);
-//     console.log('---pageSize---', pageSize);
-//   },
-//   onShowSizeChange: (page: any, size: any) => {
-//     console.log('---page--11-', page);
-//     console.log('---size--11-', size);
-//   },
-//   itemRender: (current: any, type: any, originalElement: any): any => {
-//     function createAEle (content: string) {
-//       let aEle = document.createElement("a");
-//       aEle.innerHTML = content;
-//       return aEle;
-//     }
+const pagination = new Pagination('#pagination', {
+  total: 500,
+  // disabled: true,
+  // showLessItems: true,
+  // size: 'small',
+  // showTotal: (total: any, range: any) => {
+  //   return `${range[0]}-${range[1]} of ${total} items`;
+  // },
+  showSizeChanger: true,
+  showQuickJumper: true,
+  hideOnSinglePage: true,
+  simple: false,
+  onChange: (page: any, pageSize: any) => {
+    console.log('---page---', page);
+    console.log('---pageSize---', pageSize);
+  },
+  onShowSizeChange: (page: any, size: any) => {
+    console.log('---page--11-', page);
+    console.log('---size--11-', size);
+  },
+  itemRender: (current: any, type: any, originalElement: any): any => {
+    function createAEle (content: string) {
+      let aEle = document.createElement("a");
+      aEle.innerHTML = content;
+      return aEle;
+    }
 
-//     if (type === 'prev') {
-//       return createAEle('上一个');
-//     }
+    if (type === 'prev') {
+      return createAEle('上一个');
+    }
 
-//     if (type === 'next') {
-//       return createAEle('下一个');
-//     }
+    if (type === 'next') {
+      return createAEle('下一个');
+    }
 
-//     if (type === 'page') {
-//       return createAEle(`第${current}只`);
-//     }
+    if (type === 'page') {
+      return createAEle(`第${current}只`);
+    }
 
-//     return originalElement;
-//   }
-// });
+    return originalElement;
+  }
+});
 
 export default Pagination;
