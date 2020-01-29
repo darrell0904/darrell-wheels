@@ -22,7 +22,6 @@ export const arrIndexOf = (arr: any, v: any): number => {
           return i;
       }
   }
-
   return -1;
 }
 
