@@ -33,7 +33,12 @@ module.exports = {
     })
   ],
   // 开发服务器配置
-  devServer: {},
+  devServer: {
+    contentBase: path.join(__dirname, '../example/src/'),
+    compress: true,
+    port: 3001, // 启动端口为 3001 的服务
+    // open: true // 自动打开浏览器
+  },
   // 处理对应模块
   module: {
     rules: [
