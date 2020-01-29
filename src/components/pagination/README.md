@@ -42,11 +42,11 @@ class App extends React.Component {
 
 ```jsx
 new Pagination('#Pagination', {
-	total: 500,
-	onChange: (page, pageSize) => {
-	}
-	onShowSizeChange: (page, size) => {
-	}
+  total: 500,
+  onChange: (page, pageSize) => {
+  }
+  onShowSizeChange: (page, size) => {
+  }
 }
 ```
 
