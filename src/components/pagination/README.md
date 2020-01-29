@@ -26,10 +26,11 @@ class App extends React.Component {
     new Pagination('#Pagination', {
       total: 500,
       onChange: (page: any, pageSize: any) => {
-        
+        // do something
       }
       onShowSizeChange: (page: any, size: any) => {
-    	}
+      	// do something
+      }
     }
   }
   ...
