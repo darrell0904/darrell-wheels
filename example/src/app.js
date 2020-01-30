@@ -11,10 +11,10 @@ new Pagination('#pagination', {
   // showTotal: (total, range) => {
   //   return `${range[0]}-${range[1]} of ${total} items`;
   // },
-  showSizeChanger: true,
+  showSizeChanger: false,
   showQuickJumper: true,
   hideOnSinglePage: false,
-  simple: false,
+  simple: true,
   onChange: (page, pageSize) => {
     console.log('---page---', page);
     console.log('---pageSize---', pageSize);
@@ -23,8 +23,8 @@ new Pagination('#pagination', {
     console.log('---page--11-', page);
     console.log('---size--11-', size);
   },
-  // itemRender: (current: any, type: any, originalElement: any): any => {
-  //   function createAEle (content: string) {
+  // itemRender: (current, type, originalElement) => {
+  //   function createAEle (content) {
   //     let aEle = document.createElement("a");
   //     aEle.innerHTML = content;
   //     return aEle;
