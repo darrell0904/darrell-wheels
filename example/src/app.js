@@ -1,47 +1,89 @@
-// import { Pagination } from '../../src/index';
-import { Pagination } from 'darrell-wheels';
+import { MyPromise } from '../../src/index';
 
-// Pagination();
+var p1 = new MyPromise((resolved, rejected) => {
+  // let num = Math.random();
 
-new Pagination('#pagination', {
-  total: 500,
-  // disabled: true,
-  showLessItems: false,
-  // size: 'small',
-  // showTotal: (total, range) => {
-  //   return `${range[0]}-${range[1]} of ${total} items`;
-  // },
-  showSizeChanger: false,
-  showQuickJumper: true,
-  hideOnSinglePage: false,
-  simple: true,
-  onChange: (page, pageSize) => {
-    console.log('---page---', page);
-    console.log('---pageSize---', pageSize);
-  },
-  onShowSizeChange: (page, size) => {
-    console.log('---page--11-', page);
-    console.log('---size--11-', size);
-  },
-  // itemRender: (current, type, originalElement) => {
-  //   function createAEle (content) {
-  //     let aEle = document.createElement("a");
-  //     aEle.innerHTML = content;
-  //     return aEle;
-  //   }
+  // console.log('----num---', num);
 
-  //   if (type === 'prev') {
-  //     return createAEle('上一个');
-  //   }
-
-  //   if (type === 'next') {
-  //     return createAEle('下一个');
-  //   }
-
-  //   if (type === 'page') {
-  //     return createAEle(`第${current}只`);
-  //   }
-
-  //   return originalElement;
+  // if(num < .5){
+  //   resolved(num)
+  // } else {
+  //   rejected('失败')
   // }
-});
+  setTimeout(() => {
+    resolved('-----我 resolved 了-----');
+  }, 1000)
+  
+})
+
+// 例子0：最简单的一个实现
+p1.then((res) => {
+  console.log('----res1----', res);
+  return `${res}-then 中 return`;
+}, err => {
+  console.log('----err1----', err)
+}).then((res) => {
+  console.log('----res2----', res);
+  return `${res}-then 中 return`;
+}, err => {
+  console.log('----err2----', err)
+})
+
+// var p1 = new MyPromise((resolved, rejected) => {
+//   // setTimeout(() => {
+//     // console.log('----执行了1---');
+//     resolved('---p1---');
+//   // }, 400); 
+// })
+
+// 例子一：不支持链式调用
+
+// p1.then((data) => {
+//   console.log('---data1', data);
+//   return '----p2-----';
+// })
+
+// 例子二：支持链式调用
+
+// p1.then((data) => {
+//   console.log('---data2', data);
+//   return '----p2-----';
+// }).then((data) => {
+//   console.log('---data3', data);
+//   return '----p3-----';
+// }).then((data) => {
+//   console.log('---data4', data);
+//   return '----p4-----';
+// });
+
+// p1.then((data) => {
+//   console.log('---data2', data);
+//   // setTimeout(() => {
+//     return '----p2-----';
+//   // }, 400); 
+// }).then((data) => {
+//   console.log('---data3', data);
+//   // setTimeout(() => {
+//     return '----p3-----';
+//   // }, 400);
+// }).then((data) => {
+//   console.log('---data4', data);
+//   // setTimeout(() => {
+//     return '----p4-----';
+//   // }, 400);
+// });
+
+// 例子4：最简单的一个实现
+// p1.then((res) => {
+//   console.log('----res1----', res);
+//   return `${res}-then 中 return`;
+// }, err => {
+//   console.log('----err1----', err)
+// }).then((res) => {
+//   console.log('----res2----', res);
+//   return `${res}-then 中 return`;
+// }, err => {
+//   console.log('----err2----', err)
+// })
+
+
