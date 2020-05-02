@@ -10,9 +10,9 @@ var p1 = new MyPromise((resolved, rejected) => {
   // } else {
   //   rejected('失败')
   // }
-  setTimeout(() => {
+  // setTimeout(() => {
     resolved('-----我 resolved 了-----');
-  }, 1000)
+  // }, 1000)
   
 })
 
@@ -22,11 +22,6 @@ p1.then((res) => {
   return `${res}-then 中 return`;
 }, err => {
   console.log('----err1----', err)
-}).then((res) => {
-  console.log('----res2----', res);
-  return `${res}-then 中 return`;
-}, err => {
-  console.log('----err2----', err)
 })
 
 // var p1 = new MyPromise((resolved, rejected) => {
