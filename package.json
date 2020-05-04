@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --config config/webpack.dev.config.js",
     "build": "webpack --config config/webpack.prod.config.js",
-    "pub": "npm run build && npm publish"
+    "pub": "npm run build && npm publish",
+    "test:promise": "promises-aplus-tests ./src/components/promise/index.ts"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "promises-aplus-tests": "^2.1.2",
     "style-loader": "^0.21.0",
     "ts-loader": "^6.2.1",
     "tslint": "^5.20.1",
